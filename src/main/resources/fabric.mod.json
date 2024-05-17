@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "${modId}",
+	"version": "${modVersion}",
+	"name": "${modName}",
+	"description": "A client-side mod that expands the advancements window to full screen.",
+	"authors": [
+		"${author}"
+	],
+	"contact": {
+		"sources": "${repoUrl}"
+	},
+	"license": "MIT",
+	"icon": "assets/advancementsfullscreen/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.diskree.advancementsfullscreen.AdvancementsFullscreen"
+		]
+	},
+	"mixins": [
+		"advancementsfullscreen.mixins.json"
+	],
+	"depends": {
+		"java": ">=${minJavaVersion}",
+		"minecraft": ">=${minMinecraftVersion}",
+		"fabricloader": ">=${minLoaderVersion}"
+	},
+	"accessWidener": "advancementsfullscreen.accesswidener"
+}
