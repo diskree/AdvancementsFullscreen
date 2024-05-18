@@ -5,17 +5,11 @@ import com.diskree.advancementsfullscreen.FullscreenAdvancementsWindow;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
 
@@ -194,39 +187,5 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     )
     private int moveSadLabelTextToBottom(int originalValue) {
         return advancementsfullscreen$getFullscreenWindowHeight(false);
-    }
-
-    @Redirect(
-        method = "init",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/widget/ThreePartsLayoutWidget;addHeader(Lnet/minecraft/text/Text;Lnet/minecraft/client/font/TextRenderer;)V",
-            ordinal = 0
-        )
-    )
-    private void removeHeader(ThreePartsLayoutWidget layout, Text text, TextRenderer textRenderer) {
-    }
-
-    @Redirect(
-        method = "init",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/widget/ThreePartsLayoutWidget;addFooter(Lnet/minecraft/client/gui/widget/Widget;)Lnet/minecraft/client/gui/widget/Widget;",
-            ordinal = 0
-        )
-    )
-    private <T extends Widget> @Nullable T removeFooter(ThreePartsLayoutWidget layout, T widget) {
-        return null;
-    }
-
-    @Redirect(
-        method = "init",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/widget/ThreePartsLayoutWidget;forEachChild(Ljava/util/function/Consumer;)V",
-            ordinal = 0
-        )
-    )
-    private void cancelAddDrawableChild(ThreePartsLayoutWidget layout, Consumer<ClickableWidget> consumer) {
     }
 }
