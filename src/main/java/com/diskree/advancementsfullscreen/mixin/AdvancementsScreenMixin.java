@@ -8,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -58,13 +57,12 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         method = "drawWidgets",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/advancement/AdvancementsScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
+            target = "Lnet/minecraft/client/gui/screen/advancement/AdvancementsScreen;blit(IIIIII)V",
             ordinal = 0
         )
     )
     public void drawFullscreenWindow(
         AdvancementsScreen screen,
-        MatrixStack matrices,
         int x,
         int y,
         int u,
@@ -75,7 +73,6 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         int shadowOffset = 6;
         NineSlicedRenderer.drawNineSlicedTexture(
             screen,
-            matrices,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             advancementsfullscreen$getFullscreenWindowWidth(true),
@@ -164,7 +161,18 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
             ordinal = 0
         )
     )
-    private int moveEmptyTextAndSadLabelTextToCenterOfWidth(int originalValue) {
+    private int moveEmptyTextToCenterOfWidth(int originalValue) {
+        return advancementsfullscreen$getFullscreenWindowWidth(false) / 2;
+    }
+
+    @ModifyConstant(
+        method = "drawAdvancementTree",
+        constant = @Constant(
+            intValue = AdvancementsFullscreen.PAGE_WIDTH / 2,
+            ordinal = 1
+        )
+    )
+    private int moveSadLabelTextToCenterOfWidth(int originalValue) {
         return advancementsfullscreen$getFullscreenWindowWidth(false) / 2;
     }
 

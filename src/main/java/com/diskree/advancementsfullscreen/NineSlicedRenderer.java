@@ -2,7 +2,6 @@ package com.diskree.advancementsfullscreen;
 
 import it.unimi.dsi.fastutil.ints.IntIterator;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -17,7 +16,6 @@ public class NineSlicedRenderer {
     @Unique
     public static void drawNineSlicedTexture(
         DrawableHelper drawableHelper,
-        MatrixStack matrices,
         int x,
         int y,
         int width,
@@ -36,14 +34,13 @@ public class NineSlicedRenderer {
         topSliceHeight = Math.min(topSliceHeight, height / 2);
         bottomSliceHeight = Math.min(bottomSliceHeight, height / 2);
         if (width == centerSliceWidth && height == centerSliceHeight) {
-            drawableHelper.drawTexture(matrices, x, y, u, v, width, height);
+            drawableHelper.blit(x, y, u, v, width, height);
             return;
         }
         if (height == centerSliceHeight) {
-            drawableHelper.drawTexture(matrices, x, y, u, v, leftSliceWidth, height);
+            drawableHelper.blit(x, y, u, v, leftSliceWidth, height);
             drawRepeatingTexture(
                 drawableHelper,
-                matrices,
                 x + leftSliceWidth,
                 y,
                 width - rightSliceWidth - leftSliceWidth,
@@ -53,8 +50,7 @@ public class NineSlicedRenderer {
                 centerSliceWidth - rightSliceWidth - leftSliceWidth,
                 centerSliceHeight
             );
-            drawableHelper.drawTexture(
-                matrices,
+            drawableHelper.blit(
                 x + width - rightSliceWidth,
                 y,
                 u + centerSliceWidth - rightSliceWidth,
@@ -65,10 +61,9 @@ public class NineSlicedRenderer {
             return;
         }
         if (width == centerSliceWidth) {
-            drawableHelper.drawTexture(matrices, x, y, u, v, width, topSliceHeight);
+            drawableHelper.blit(x, y, u, v, width, topSliceHeight);
             drawRepeatingTexture(
                 drawableHelper,
-                matrices,
                 x,
                 y + topSliceHeight,
                 width,
@@ -78,8 +73,7 @@ public class NineSlicedRenderer {
                 centerSliceWidth,
                 centerSliceHeight - bottomSliceHeight - topSliceHeight
             );
-            drawableHelper.drawTexture(
-                matrices,
+            drawableHelper.blit(
                 x,
                 y + height - bottomSliceHeight,
                 u,
@@ -89,10 +83,9 @@ public class NineSlicedRenderer {
             );
             return;
         }
-        drawableHelper.drawTexture(matrices, x, y, u, v, leftSliceWidth, topSliceHeight);
+        drawableHelper.blit(x, y, u, v, leftSliceWidth, topSliceHeight);
         drawRepeatingTexture(
             drawableHelper,
-            matrices,
             x + leftSliceWidth,
             y,
             width - rightSliceWidth - leftSliceWidth,
@@ -102,8 +95,7 @@ public class NineSlicedRenderer {
             centerSliceWidth - rightSliceWidth - leftSliceWidth,
             topSliceHeight
         );
-        drawableHelper.drawTexture(
-            matrices,
+        drawableHelper.blit(
             x + width - rightSliceWidth,
             y,
             u + centerSliceWidth - rightSliceWidth,
@@ -111,8 +103,7 @@ public class NineSlicedRenderer {
             rightSliceWidth,
             topSliceHeight
         );
-        drawableHelper.drawTexture(
-            matrices,
+        drawableHelper.blit(
             x,
             y + height - bottomSliceHeight,
             u,
@@ -122,7 +113,6 @@ public class NineSlicedRenderer {
         );
         drawRepeatingTexture(
             drawableHelper,
-            matrices,
             x + leftSliceWidth,
             y + height - bottomSliceHeight,
             width - rightSliceWidth - leftSliceWidth,
@@ -132,8 +122,7 @@ public class NineSlicedRenderer {
             centerSliceWidth - rightSliceWidth - leftSliceWidth,
             bottomSliceHeight
         );
-        drawableHelper.drawTexture(
-            matrices,
+        drawableHelper.blit(
             x + width - rightSliceWidth,
             y + height - bottomSliceHeight,
             u + centerSliceWidth - rightSliceWidth,
@@ -143,7 +132,6 @@ public class NineSlicedRenderer {
         );
         drawRepeatingTexture(
             drawableHelper,
-            matrices,
             x,
             y + topSliceHeight,
             leftSliceWidth,
@@ -155,7 +143,6 @@ public class NineSlicedRenderer {
         );
         drawRepeatingTexture(
             drawableHelper,
-            matrices,
             x + leftSliceWidth,
             y + topSliceHeight,
             width - rightSliceWidth - leftSliceWidth,
@@ -167,7 +154,6 @@ public class NineSlicedRenderer {
         );
         drawRepeatingTexture(
             drawableHelper,
-            matrices,
             x + width - rightSliceWidth,
             y + topSliceHeight,
             leftSliceWidth,
@@ -181,7 +167,6 @@ public class NineSlicedRenderer {
 
     private static void drawRepeatingTexture(
         DrawableHelper drawableHelper,
-        MatrixStack matrices,
         int x,
         int y,
         int width,
@@ -201,7 +186,7 @@ public class NineSlicedRenderer {
             while (intIterator2.hasNext()) {
                 int m = intIterator2.nextInt();
                 int n = (textureHeight - m) / 2;
-                drawableHelper.drawTexture(matrices, i, l, u + k, v + n, j, m);
+                drawableHelper.blit(i, l, u + k, v + n, j, m);
                 l += m;
             }
             i += j;
