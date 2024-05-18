@@ -10,7 +10,7 @@ Never. This is made for those who only want a large window without any additiona
 
 [AdvancementInfo](https://modrinth.com/mod/advancementinfo) - adds information about the remaining criteria for completing advancements, but expanding the window is just a bonus.
 
-[BetterAdvancements](https://modrinth.com/mod/better-advancements) - adds so many features, not only expanding the window.
+[Better Advancements](https://modrinth.com/mod/better-advancements) - adds so many features, not only expanding the window.
 
 [Advancements Enlarger](https://www.curseforge.com/minecraft/mc-mods/advancements-enlarger) - expands the window, but does it in a way that will cause conflicts with other mods that also do something in the this window.
 
