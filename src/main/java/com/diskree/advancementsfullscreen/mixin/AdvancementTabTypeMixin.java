@@ -14,9 +14,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.WINDOW_HEIGHT;
-import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.WINDOW_WIDTH;
-
 @Mixin(AdvancementTabType.class)
 public class AdvancementTabTypeMixin {
 
@@ -31,7 +28,7 @@ public class AdvancementTabTypeMixin {
     @ModifyConstant(
         method = "getTabX",
         constant = @Constant(
-            intValue = WINDOW_WIDTH - 4,
+            intValue = AdvancementsFullscreen.WINDOW_WIDTH - 4,
             ordinal = 0
         )
     )
@@ -45,7 +42,7 @@ public class AdvancementTabTypeMixin {
     @ModifyConstant(
         method = "getTabY",
         constant = @Constant(
-            intValue = WINDOW_HEIGHT - 4,
+            intValue = AdvancementsFullscreen.WINDOW_HEIGHT - 4,
             ordinal = 0
         )
     )

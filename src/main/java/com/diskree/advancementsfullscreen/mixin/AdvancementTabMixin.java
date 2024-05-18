@@ -1,5 +1,6 @@
 package com.diskree.advancementsfullscreen.mixin;
 
+import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
@@ -8,9 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-
-import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.PAGE_HEIGHT;
-import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.PAGE_WIDTH;
 
 @Mixin(AdvancementTab.class)
 public class AdvancementTabMixin {
@@ -22,7 +20,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "move",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 0
         )
     )
@@ -36,7 +34,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "move",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 0
         )
     )
@@ -50,7 +48,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "move",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 1
         )
     )
@@ -64,7 +62,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "move",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 1
         )
     )
@@ -78,7 +76,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "drawWidgetTooltip",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 0
         )
     )
@@ -92,7 +90,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "drawWidgetTooltip",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 0
         )
     )
@@ -106,7 +104,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "drawWidgetTooltip",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 1
         )
     )
@@ -120,7 +118,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "drawWidgetTooltip",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 1
         )
     )
@@ -134,7 +132,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 0
         )
     )
@@ -148,7 +146,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 0
         )
     )
@@ -162,7 +160,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = PAGE_WIDTH / 2,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH / 2,
             ordinal = 0
         )
     )
@@ -176,7 +174,7 @@ public class AdvancementTabMixin {
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = PAGE_HEIGHT / 2,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT / 2,
             ordinal = 0
         )
     )

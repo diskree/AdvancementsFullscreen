@@ -19,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Map;
 
-import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
-
 @Mixin(AdvancementsScreen.class)
 public abstract class AdvancementsScreenMixin extends Screen implements AdvancementsScreenImpl {
 
@@ -32,7 +30,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     public int advancementsfullscreen$getFullscreenWindowWidth(boolean isWithBorder) {
         int result = width - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
         if (!isWithBorder) {
-            result -= (PAGE_OFFSET_X * 2);
+            result -= (AdvancementsFullscreen.PAGE_OFFSET_X * 2);
         }
         return result;
     }
@@ -41,7 +39,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     public int advancementsfullscreen$getFullscreenWindowHeight(boolean isWithBorder) {
         int result = height - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
         if (!isWithBorder) {
-            result -= (PAGE_OFFSET_Y + PAGE_OFFSET_X);
+            result -= (AdvancementsFullscreen.PAGE_OFFSET_Y + AdvancementsFullscreen.PAGE_OFFSET_X);
         }
         return result;
     }
@@ -56,16 +54,8 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @Final
     private Map<Advancement, AdvancementTab> tabs;
 
-    @Shadow
-    @Final
-    private static int PAGE_OFFSET_X;
-
-    @Shadow
-    @Final
-    private static int PAGE_OFFSET_Y;
-
     @Redirect(
-        method = "drawWindow",
+        method = "drawWidgets",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screen/advancement/AdvancementsScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
@@ -90,12 +80,12 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             advancementsfullscreen$getFullscreenWindowWidth(true),
             advancementsfullscreen$getFullscreenWindowHeight(true),
-            PAGE_OFFSET_X + shadowOffset,
-            PAGE_OFFSET_Y + shadowOffset,
-            PAGE_OFFSET_X + shadowOffset,
-            PAGE_OFFSET_X + shadowOffset,
-            WINDOW_WIDTH,
-            WINDOW_HEIGHT,
+            AdvancementsFullscreen.PAGE_OFFSET_X + shadowOffset,
+            AdvancementsFullscreen.PAGE_OFFSET_Y + shadowOffset,
+            AdvancementsFullscreen.PAGE_OFFSET_X + shadowOffset,
+            AdvancementsFullscreen.PAGE_OFFSET_X + shadowOffset,
+            AdvancementsFullscreen.WINDOW_WIDTH,
+            AdvancementsFullscreen.WINDOW_HEIGHT,
             0,
             0
         );
@@ -104,7 +94,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = WINDOW_WIDTH,
+            intValue = AdvancementsFullscreen.WINDOW_WIDTH,
             ordinal = 0
         )
     )
@@ -115,7 +105,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "render",
         constant = @Constant(
-            intValue = WINDOW_HEIGHT,
+            intValue = AdvancementsFullscreen.WINDOW_HEIGHT,
             ordinal = 0
         )
     )
@@ -126,7 +116,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "mouseClicked",
         constant = @Constant(
-            intValue = WINDOW_WIDTH,
+            intValue = AdvancementsFullscreen.WINDOW_WIDTH,
             ordinal = 0
         )
     )
@@ -137,7 +127,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "mouseClicked",
         constant = @Constant(
-            intValue = WINDOW_HEIGHT,
+            intValue = AdvancementsFullscreen.WINDOW_HEIGHT,
             ordinal = 0
         )
     )
@@ -148,7 +138,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "drawAdvancementTree",
         constant = @Constant(
-            intValue = PAGE_WIDTH,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH,
             ordinal = 0
         )
     )
@@ -159,7 +149,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "drawAdvancementTree",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 0
         )
     )
@@ -170,7 +160,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "drawAdvancementTree",
         constant = @Constant(
-            intValue = PAGE_WIDTH / 2,
+            intValue = AdvancementsFullscreen.PAGE_WIDTH / 2,
             ordinal = 0
         )
     )
@@ -181,7 +171,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "drawAdvancementTree",
         constant = @Constant(
-            intValue = PAGE_HEIGHT / 2,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT / 2,
             ordinal = 0
         )
     )
@@ -192,7 +182,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @ModifyConstant(
         method = "drawAdvancementTree",
         constant = @Constant(
-            intValue = PAGE_HEIGHT,
+            intValue = AdvancementsFullscreen.PAGE_HEIGHT,
             ordinal = 1
         )
     )

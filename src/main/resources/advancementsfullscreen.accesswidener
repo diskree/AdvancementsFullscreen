@@ -3,3 +3,6 @@ accessWidener v2 named
 accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType
 
 accessible field net/minecraft/client/gui/screen/advancement/AdvancementTab initialized Z
+
+accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen field_32306 I
+accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen field_32307 I
