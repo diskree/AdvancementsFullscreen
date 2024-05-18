@@ -3,9 +3,12 @@ package com.diskree.advancementsfullscreen.mixin;
 import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
 import com.diskree.advancementsfullscreen.FullscreenAdvancementsWindow;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
+import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
@@ -13,13 +16,16 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
@@ -38,7 +44,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     public int advancementsfullscreen$getFullscreenWindowWidth(boolean isWithBorder) {
         int result = width - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
         if (!isWithBorder) {
-            result -= (FullscreenAdvancementsWindow.BORDER_WIDTH * 2);
+            result -= (PAGE_OFFSET_X * 2);
         }
         return result;
     }
@@ -47,10 +53,28 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     public int advancementsfullscreen$getFullscreenWindowHeight(boolean isWithBorder) {
         int result = height - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
         if (!isWithBorder) {
-            result -= (FullscreenAdvancementsWindow.TOP_BORDER_WIDTH + FullscreenAdvancementsWindow.BORDER_WIDTH);
+            result -= (PAGE_OFFSET_Y + PAGE_OFFSET_X);
         }
         return result;
     }
+
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        super.resize(client, width, height);
+        tabs.values().forEach((tab) -> tab.initialized = false);
+    }
+
+    @Shadow
+    @Final
+    public static int PAGE_OFFSET_X;
+
+    @Shadow
+    @Final
+    public static int PAGE_OFFSET_Y;
+
+    @Shadow
+    @Final
+    private Map<AdvancementEntry, AdvancementTab> tabs;
 
     @Redirect(
         method = "drawWindow",

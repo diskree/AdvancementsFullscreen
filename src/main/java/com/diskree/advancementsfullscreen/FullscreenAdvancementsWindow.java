@@ -8,22 +8,18 @@ import org.jetbrains.annotations.NotNull;
 
 public class FullscreenAdvancementsWindow extends Sprite {
 
-    public static final int TOP_BORDER_WIDTH = 18;
-    public static final int BORDER_WIDTH = 9;
-
     private static final int TEXTURE_WIDTH = 256;
     private static final int TEXTURE_HEIGHT = 256;
-
-    private static final int DIM_WIDTH = 6;
+    private static final int SHADOW_OFFSET = 6;
 
     private static final Scaling.NineSlice NINE_SLICE = new Scaling.NineSlice(
         AdvancementsScreen.WINDOW_WIDTH,
         AdvancementsScreen.WINDOW_HEIGHT,
         new Scaling.NineSlice.Border(
-            BORDER_WIDTH + DIM_WIDTH,
-            TOP_BORDER_WIDTH + DIM_WIDTH,
-            BORDER_WIDTH + DIM_WIDTH,
-            BORDER_WIDTH + DIM_WIDTH
+            AdvancementsScreen.PAGE_OFFSET_X + SHADOW_OFFSET,
+            AdvancementsScreen.PAGE_OFFSET_Y + SHADOW_OFFSET,
+            AdvancementsScreen.PAGE_OFFSET_X + SHADOW_OFFSET,
+            AdvancementsScreen.PAGE_OFFSET_X + SHADOW_OFFSET
         )
     );
 
