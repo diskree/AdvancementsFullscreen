@@ -1,12 +1,5 @@
 accessWidener v2 named
 
 accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType
-accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType$Textures
-
-accessible method net/minecraft/client/gui/DrawContext drawSprite (Lnet/minecraft/client/texture/Sprite;Lnet/minecraft/client/texture/Scaling$NineSlice;IIIII)V
-
-accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen WINDOW_TEXTURE Lnet/minecraft/util/Identifier;
-accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen PAGE_OFFSET_X I
-accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen PAGE_OFFSET_Y I
 
 accessible field net/minecraft/client/gui/screen/advancement/AdvancementTab initialized Z

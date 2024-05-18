@@ -1,19 +1,18 @@
 package com.diskree.advancementsfullscreen.mixin;
 
 import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
-import com.diskree.advancementsfullscreen.FullscreenAdvancementsWindow;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
-import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
@@ -25,9 +24,6 @@ import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
 
 @Mixin(AdvancementsScreen.class)
 public abstract class AdvancementsScreenMixin extends Screen implements AdvancementsScreenImpl {
-
-    @Unique
-    private final FullscreenAdvancementsWindow fullscreenAdvancementsWindow = new FullscreenAdvancementsWindow();
 
     public AdvancementsScreenMixin() {
         super(null);
@@ -59,15 +55,19 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
 
     @Shadow
     @Final
-    public static int PAGE_OFFSET_X;
+    private Map<Advancement, AdvancementTab> tabs;
 
     @Shadow
     @Final
-    public static int PAGE_OFFSET_Y;
+    private static Identifier WINDOW_TEXTURE;
 
     @Shadow
     @Final
-    private Map<AdvancementEntry, AdvancementTab> tabs;
+    private static int PAGE_OFFSET_X;
+
+    @Shadow
+    @Final
+    private static int PAGE_OFFSET_Y;
 
     @Redirect(
         method = "drawWindow",
@@ -78,7 +78,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     public void drawFullscreenWindow(
-        DrawContext context,
+        @NotNull DrawContext context,
         Identifier texture,
         int x,
         int y,
@@ -87,7 +87,22 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         int w,
         int h
     ) {
-        fullscreenAdvancementsWindow.draw(context, width, height);
+        int shadowOffset = 6;
+        context.drawNineSlicedTexture(
+            WINDOW_TEXTURE,
+            AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
+            AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
+            advancementsfullscreen$getFullscreenWindowWidth(true),
+            advancementsfullscreen$getFullscreenWindowHeight(true),
+            PAGE_OFFSET_X + shadowOffset,
+            PAGE_OFFSET_Y + shadowOffset,
+            PAGE_OFFSET_X + shadowOffset,
+            PAGE_OFFSET_X + shadowOffset,
+            WINDOW_WIDTH,
+            WINDOW_HEIGHT,
+            0,
+            0
+        );
     }
 
     @ModifyConstant(

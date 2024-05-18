@@ -2,12 +2,12 @@ package com.diskree.advancementsfullscreen.mixin;
 
 import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.advancement.AdvancementTabType;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
@@ -19,6 +19,14 @@ import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.WIN
 
 @Mixin(AdvancementTabType.class)
 public class AdvancementTabTypeMixin {
+
+    @Shadow
+    @Final
+    private int u;
+
+    @Shadow
+    @Final
+    private int width;
 
     @ModifyConstant(
         method = "getTabX",
@@ -52,27 +60,24 @@ public class AdvancementTabTypeMixin {
         method = "drawBackground",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
+            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
         )
     )
-    public void drawMiddleBackgroundInsteadLast(
-        @NotNull Args args,
-        @Local(ordinal = 0) @NotNull AdvancementTabType.Textures textures
-    ) {
+    public void drawMiddleBackgroundInsteadLast(@NotNull Args args) {
         if (MinecraftClient.getInstance().currentScreen instanceof AdvancementsScreenImpl screenImpl) {
-            Identifier texture = args.get(0);
-            if (texture == textures.middle() || texture == textures.last()) {
+            int textureU = args.get(3);
+            if (textureU > u) {
                 AdvancementTabType tabType = (AdvancementTabType) (Object) this;
                 int windowRight = AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN +
                     screenImpl.advancementsfullscreen$getFullscreenWindowWidth(true);
                 int windowBottom = AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN +
                     screenImpl.advancementsfullscreen$getFullscreenWindowHeight(true);
-                int tabRight = (int) args.get(1) + (int) args.get(3);
-                int tabBottom = (int) args.get(2) + (int) args.get(4);
+                int tabRight = (int) args.get(1) + (int) args.get(5);
+                int tabBottom = (int) args.get(2) + (int) args.get(6);
                 boolean isConnectedTextures =
                     tabType == AdvancementTabType.ABOVE || tabType == AdvancementTabType.BELOW ? tabRight == windowRight
                         : tabBottom == windowBottom;
-                args.set(0, isConnectedTextures ? textures.last() : textures.middle());
+                args.set(3, u + width * (isConnectedTextures ? 2 : 1));
             }
         }
     }
