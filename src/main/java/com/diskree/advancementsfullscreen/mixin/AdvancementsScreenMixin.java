@@ -1,6 +1,7 @@
 package com.diskree.advancementsfullscreen.mixin;
 
 import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
+import com.diskree.advancementsfullscreen.NineSlicedRenderer;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.client.MinecraftClient;
@@ -72,6 +73,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     public void drawFullscreenWindow(
+        AdvancementsScreen screen,
         MatrixStack matrices,
         int x,
         int y,
@@ -81,7 +83,8 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         int height
     ) {
         int shadowOffset = 6;
-        drawNineSlicedTexture(
+        NineSlicedRenderer.drawNineSlicedTexture(
+            screen,
             matrices,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
