@@ -1,6 +1,7 @@
 accessWidener v2 named
 
 accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType
+accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType$Textures
 
 accessible method net/minecraft/client/gui/DrawContext drawSprite (Lnet/minecraft/client/texture/Sprite;Lnet/minecraft/client/texture/Scaling$NineSlice;IIIII)V
 
