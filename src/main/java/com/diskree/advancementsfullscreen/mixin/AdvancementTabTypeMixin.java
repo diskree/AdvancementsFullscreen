@@ -60,7 +60,7 @@ public class AdvancementTabTypeMixin {
         method = "drawBackground",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+            target = "Lnet/minecraft/client/gui/DrawableHelper;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"
         )
     )
     public void drawMiddleBackgroundInsteadLast(@NotNull Args args) {

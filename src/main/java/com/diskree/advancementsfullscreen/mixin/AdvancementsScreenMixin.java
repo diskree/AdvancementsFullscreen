@@ -4,12 +4,10 @@ import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -59,10 +57,6 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
 
     @Shadow
     @Final
-    private static Identifier WINDOW_TEXTURE;
-
-    @Shadow
-    @Final
     private static int PAGE_OFFSET_X;
 
     @Shadow
@@ -73,23 +67,22 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         method = "drawWindow",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
+            target = "Lnet/minecraft/client/gui/screen/advancement/AdvancementsScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
             ordinal = 0
         )
     )
     public void drawFullscreenWindow(
-        @NotNull DrawContext context,
-        Identifier texture,
+        MatrixStack matrices,
         int x,
         int y,
         int u,
         int v,
-        int w,
-        int h
+        int width,
+        int height
     ) {
         int shadowOffset = 6;
-        context.drawNineSlicedTexture(
-            WINDOW_TEXTURE,
+        drawNineSlicedTexture(
+            matrices,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
             advancementsfullscreen$getFullscreenWindowWidth(true),
