@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "com.diskree.advancementsfullscreen.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_8",
   "injectors": {
     "defaultRequire": 1
   },
