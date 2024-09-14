@@ -39,15 +39,7 @@ public class FullscreenAdvancementsWindow extends Sprite {
         );
     }
 
-    public void draw(@NotNull DrawContext context, int screenWidth, int screenHeight) {
-        context.drawSprite(
-            this,
-            NINE_SLICE,
-            AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
-            AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN,
-            0,
-            screenWidth - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2,
-            screenHeight - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2
-        );
+    public void draw(@NotNull DrawContext context, int windowX, int windowY, int windowWidth, int windowHeight) {
+        context.drawSprite(this, NINE_SLICE, windowX, windowY, 0, windowWidth, windowHeight);
     }
 }

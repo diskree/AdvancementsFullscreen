@@ -1,9 +1,9 @@
 package com.diskree.advancementsfullscreen.mixin;
 
-import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
 import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTabType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class AdvancementTabTypeMixin {
     )
     public int calculateTabXForFullscreenAtRightTabType(int originalValue) {
         if (MinecraftClient.getInstance().currentScreen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getFullscreenWindowWidth(true) - 4;
+            return screenImpl.advancementsfullscreen$getWindowWidth(true) - 4;
         }
         return originalValue;
     }
@@ -43,7 +43,7 @@ public class AdvancementTabTypeMixin {
     )
     public int calculateTabYForFullscreenAtBelowTabType(int originalValue) {
         if (MinecraftClient.getInstance().currentScreen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getFullscreenWindowHeight(true) - 4;
+            return screenImpl.advancementsfullscreen$getWindowHeight(true) - 4;
         }
         return originalValue;
     }
@@ -59,14 +59,13 @@ public class AdvancementTabTypeMixin {
         @NotNull Args args,
         @Local(ordinal = 0) @NotNull AdvancementTabType.Textures textures
     ) {
-        if (MinecraftClient.getInstance().currentScreen instanceof AdvancementsScreenImpl screenImpl) {
+        Screen currentScreen = MinecraftClient.getInstance().currentScreen;
+        if (currentScreen instanceof AdvancementsScreenImpl screenImpl) {
             Identifier texture = args.get(0);
             if (texture == textures.middle() || texture == textures.last()) {
                 AdvancementTabType tabType = (AdvancementTabType) (Object) this;
-                int windowRight = AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN +
-                    screenImpl.advancementsfullscreen$getFullscreenWindowWidth(true);
-                int windowBottom = AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN +
-                    screenImpl.advancementsfullscreen$getFullscreenWindowHeight(true);
+                int windowRight = currentScreen.width - screenImpl.advancementsfullscreen$getWindowHorizontalMargin();
+                int windowBottom = currentScreen.height - screenImpl.advancementsfullscreen$getWindowVerticalMargin();
                 int tabRight = (int) args.get(1) + (int) args.get(3);
                 int tabBottom = (int) args.get(2) + (int) args.get(4);
                 boolean isConnectedTextures =

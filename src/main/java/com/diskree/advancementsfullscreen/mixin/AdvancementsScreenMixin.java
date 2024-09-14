@@ -9,6 +9,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
+import net.minecraft.client.gui.screen.advancement.AdvancementTabType;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
@@ -20,10 +21,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -36,32 +35,81 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     @Unique
     private final FullscreenAdvancementsWindow fullscreenAdvancementsWindow = new FullscreenAdvancementsWindow();
 
+    @Unique
+    private int windowWidth;
+
+    @Unique
+    private int windowHeight;
+
+    @Unique
+    private int windowHorizontalMargin;
+
+    @Unique
+    private int windowVerticalMargin;
+
     public AdvancementsScreenMixin() {
         super(null);
     }
 
     @Override
-    public int advancementsfullscreen$getFullscreenWindowWidth(boolean isWithBorder) {
-        int result = width - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
-        if (!isWithBorder) {
-            result -= (PAGE_OFFSET_X * 2);
-        }
-        return result;
+    public int advancementsfullscreen$getWindowWidth(boolean isWithBorder) {
+        return isWithBorder ? windowWidth : windowWidth - (PAGE_OFFSET_X * 2);
     }
 
     @Override
-    public int advancementsfullscreen$getFullscreenWindowHeight(boolean isWithBorder) {
-        int result = height - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MARGIN * 2;
-        if (!isWithBorder) {
-            result -= (PAGE_OFFSET_Y + PAGE_OFFSET_X);
-        }
-        return result;
+    public int advancementsfullscreen$getWindowHeight(boolean isWithBorder) {
+        return isWithBorder ? windowHeight : windowHeight - (PAGE_OFFSET_Y + PAGE_OFFSET_X);
+    }
+
+    @Override
+    public int advancementsfullscreen$getWindowHorizontalMargin() {
+        return windowHorizontalMargin;
+    }
+
+    @Override
+    public int advancementsfullscreen$getWindowVerticalMargin() {
+        return windowVerticalMargin;
     }
 
     @Override
     public void resize(MinecraftClient client, int width, int height) {
         super.resize(client, width, height);
         tabs.values().forEach((tab) -> tab.initialized = false);
+        calculateWindowSizeAndPosition(width, height);
+    }
+
+    @Unique
+    private void calculateWindowSizeAndPosition(int screenWidth, int screenHeight) {
+        int tabSize = AdvancementTabType.ABOVE.width;
+
+        int tabsHorizontalSpacing = AdvancementTabType.ABOVE.getTabX(1) - tabSize;
+        int availableScreenWidth = screenWidth - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
+        int maxWindowWidth = 0;
+        int horizontalTabsCount = 1;
+        while (true) {
+            int requiredWidth = horizontalTabsCount * tabSize + (horizontalTabsCount - 1) * tabsHorizontalSpacing;
+            if (requiredWidth > availableScreenWidth) {
+                break;
+            }
+            maxWindowWidth = requiredWidth;
+            horizontalTabsCount++;
+        }
+        windowWidth = maxWindowWidth;
+        windowHorizontalMargin = (screenWidth - windowWidth) / 2;
+
+        int availableScreenHeight = screenHeight - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
+        int maxWindowHeight = 0;
+        int verticalTabsCount = 1;
+        while (true) {
+            int requiredHeight = verticalTabsCount * tabSize;
+            if (requiredHeight > availableScreenHeight) {
+                break;
+            }
+            maxWindowHeight = requiredHeight;
+            verticalTabsCount++;
+        }
+        windowHeight = maxWindowHeight;
+        windowVerticalMargin = (screenHeight - windowHeight) / 2;
     }
 
     @Shadow
@@ -94,7 +142,13 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         int w,
         int h
     ) {
-        fullscreenAdvancementsWindow.draw(context, width, height);
+        fullscreenAdvancementsWindow.draw(
+            context,
+            windowHorizontalMargin,
+            windowVerticalMargin,
+            windowWidth,
+            windowHeight
+        );
     }
 
     @ModifyConstant(
@@ -105,7 +159,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateHalfOfScreenWidthOnRender(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowWidth(true);
+        return advancementsfullscreen$getWindowWidth(true);
     }
 
     @ModifyConstant(
@@ -116,7 +170,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateHalfOfScreenHeightOnRender(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowHeight(true);
+        return advancementsfullscreen$getWindowHeight(true);
     }
 
     @ModifyConstant(
@@ -127,7 +181,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateHalfOfScreenWidthOnMouseClicked(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowWidth(true);
+        return advancementsfullscreen$getWindowWidth(true);
     }
 
     @ModifyConstant(
@@ -138,7 +192,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateHalfOfScreenHeightOnMouseClicked(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowHeight(true);
+        return advancementsfullscreen$getWindowHeight(true);
     }
 
     @ModifyConstant(
@@ -149,7 +203,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateWidthOfEmptyBlackBackground(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowWidth(false);
+        return advancementsfullscreen$getWindowWidth(false);
     }
 
     @ModifyConstant(
@@ -160,7 +214,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int calculateHeightOfEmptyBlackBackground(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowHeight(false);
+        return advancementsfullscreen$getWindowHeight(false);
     }
 
     @ModifyConstant(
@@ -171,7 +225,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int moveEmptyTextAndSadLabelTextToCenterOfWidth(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowWidth(false) / 2;
+        return advancementsfullscreen$getWindowWidth(false) / 2;
     }
 
     @ModifyConstant(
@@ -182,7 +236,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int moveEmptyTextToCenterOfHeight(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowHeight(false) / 2;
+        return advancementsfullscreen$getWindowHeight(false) / 2;
     }
 
     @ModifyConstant(
@@ -193,7 +247,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private int moveSadLabelTextToBottom(int originalValue) {
-        return advancementsfullscreen$getFullscreenWindowHeight(false);
+        return advancementsfullscreen$getWindowHeight(false);
     }
 
     @Redirect(
@@ -228,5 +282,15 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         )
     )
     private void cancelAddDrawableChild(ThreePartsLayoutWidget layout, Consumer<ClickableWidget> consumer) {
+    }
+
+    @Inject(
+        method = "init",
+        at = @At(
+            value = "RETURN"
+        )
+    )
+    private void calculateWindowSizeAndPositionOnInit(CallbackInfo ci) {
+        calculateWindowSizeAndPosition(width, height);
     }
 }

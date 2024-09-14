@@ -6,7 +6,11 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public interface AdvancementsScreenImpl {
 
-    int advancementsfullscreen$getFullscreenWindowWidth(boolean isWithBorder);
+    int advancementsfullscreen$getWindowWidth(boolean isWithBorder);
 
-    int advancementsfullscreen$getFullscreenWindowHeight(boolean isWithBorder);
+    int advancementsfullscreen$getWindowHeight(boolean isWithBorder);
+
+    int advancementsfullscreen$getWindowHorizontalMargin();
+
+    int advancementsfullscreen$getWindowVerticalMargin();
 }

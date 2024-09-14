@@ -27,7 +27,7 @@ public class AdvancementWidgetMixin {
     )
     public int drawTooltipModifyHeight(int originalValue) {
         if (tab.getScreen() instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getFullscreenWindowHeight(false);
+            return screenImpl.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
