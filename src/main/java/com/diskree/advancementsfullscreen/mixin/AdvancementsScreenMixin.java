@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -26,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
 
@@ -128,22 +130,26 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         method = "drawWindow",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
+            target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIII)V",
             ordinal = 0
         )
     )
     public void drawFullscreenWindow(
         DrawContext context,
-        Identifier texture,
+        Function<Identifier, RenderLayer> renderLayers,
+        Identifier sprite,
         int x,
         int y,
-        int u,
-        int v,
-        int w,
-        int h
+        float u,
+        float v,
+        int width,
+        int height,
+        int textureWidth,
+        int textureHeight
     ) {
         fullscreenAdvancementsWindow.draw(
             context,
+            renderLayers,
             windowHorizontalMargin,
             windowVerticalMargin,
             windowWidth,

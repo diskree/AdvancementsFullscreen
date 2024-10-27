@@ -52,7 +52,7 @@ public class AdvancementTabTypeMixin {
         method = "drawBackground",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
+            target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"
         )
     )
     public void drawMiddleBackgroundInsteadLast(
@@ -61,17 +61,17 @@ public class AdvancementTabTypeMixin {
     ) {
         Screen currentScreen = MinecraftClient.getInstance().currentScreen;
         if (currentScreen instanceof AdvancementsScreenImpl screenImpl) {
-            Identifier texture = args.get(0);
+            Identifier texture = args.get(1);
             if (texture == textures.middle() || texture == textures.last()) {
                 AdvancementTabType tabType = (AdvancementTabType) (Object) this;
                 int windowRight = currentScreen.width - screenImpl.advancementsfullscreen$getWindowHorizontalMargin();
                 int windowBottom = currentScreen.height - screenImpl.advancementsfullscreen$getWindowVerticalMargin();
-                int tabRight = (int) args.get(1) + (int) args.get(3);
-                int tabBottom = (int) args.get(2) + (int) args.get(4);
+                int tabRight = (int) args.get(2) + (int) args.get(4);
+                int tabBottom = (int) args.get(3) + (int) args.get(5);
                 boolean isConnectedTextures =
                     tabType == AdvancementTabType.ABOVE || tabType == AdvancementTabType.BELOW ? tabRight == windowRight
                         : tabBottom == windowBottom;
-                args.set(0, isConnectedTextures ? textures.last() : textures.middle());
+                args.set(1, isConnectedTextures ? textures.last() : textures.middle());
             }
         }
     }

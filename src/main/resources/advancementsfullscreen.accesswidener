@@ -4,7 +4,7 @@ accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType
 accessible class net/minecraft/client/gui/screen/advancement/AdvancementTabType$Textures
 accessible field net/minecraft/client/gui/screen/advancement/AdvancementTabType width I
 
-accessible method net/minecraft/client/gui/DrawContext drawSprite (Lnet/minecraft/client/texture/Sprite;Lnet/minecraft/client/texture/Scaling$NineSlice;IIIII)V
+accessible method net/minecraft/client/gui/DrawContext drawSpriteNineSliced (Ljava/util/function/Function;Lnet/minecraft/client/texture/Sprite;Lnet/minecraft/client/texture/Scaling$NineSlice;IIIII)V
 
 accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen WINDOW_TEXTURE Lnet/minecraft/util/Identifier;
 accessible field net/minecraft/client/gui/screen/advancement/AdvancementsScreen PAGE_OFFSET_X I
