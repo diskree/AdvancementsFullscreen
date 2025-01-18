@@ -1,6 +1,6 @@
-package com.diskree.advancementsfullscreen.mixin;
+package com.diskree.advancementsfullscreen.injection.mixin;
 
-import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
+import com.diskree.advancementsfullscreen.injection.extension.AdvancementsScreenExtension;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementWidget;
 import org.spongepowered.asm.mixin.Final;
@@ -26,7 +26,7 @@ public class AdvancementWidgetMixin {
         )
     )
     public int drawTooltipModifyHeight(int originalValue) {
-        if (tab.getScreen() instanceof AdvancementsScreenImpl screenImpl) {
+        if (tab.getScreen() instanceof AdvancementsScreenExtension screenImpl) {
             return screenImpl.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;

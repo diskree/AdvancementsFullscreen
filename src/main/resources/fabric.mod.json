@@ -15,7 +15,7 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.diskree.advancementsfullscreen.AdvancementsFullscreen"
+			"com.diskree.advancementsfullscreen.AdvancementsFullscreenMod"
 		]
 	},
 	"mixins": [

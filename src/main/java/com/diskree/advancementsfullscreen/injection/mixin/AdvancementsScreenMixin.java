@@ -1,8 +1,8 @@
-package com.diskree.advancementsfullscreen.mixin;
+package com.diskree.advancementsfullscreen.injection.mixin;
 
-import com.diskree.advancementsfullscreen.AdvancementsFullscreen;
+import com.diskree.advancementsfullscreen.AdvancementsFullscreenMod;
 import com.diskree.advancementsfullscreen.FullscreenAdvancementsWindow;
-import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
+import com.diskree.advancementsfullscreen.injection.extension.AdvancementsScreenExtension;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -32,7 +32,7 @@ import java.util.function.Function;
 import static net.minecraft.client.gui.screen.advancement.AdvancementsScreen.*;
 
 @Mixin(AdvancementsScreen.class)
-public abstract class AdvancementsScreenMixin extends Screen implements AdvancementsScreenImpl {
+public abstract class AdvancementsScreenMixin extends Screen implements AdvancementsScreenExtension {
 
     @Unique
     private final FullscreenAdvancementsWindow fullscreenAdvancementsWindow = new FullscreenAdvancementsWindow();
@@ -74,8 +74,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
     }
 
     @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        super.resize(client, width, height);
+    public void advancementsfullscreen$resize(MinecraftClient client, int width, int height) {
         tabs.values().forEach((tab) -> tab.initialized = false);
         calculateWindowSizeAndPosition(width, height);
     }
@@ -85,7 +84,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         int tabSize = AdvancementTabType.ABOVE.width;
 
         int tabsHorizontalSpacing = AdvancementTabType.ABOVE.getTabX(1) - tabSize;
-        int availableScreenWidth = screenWidth - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
+        int availableScreenWidth = screenWidth - AdvancementsFullscreenMod.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
         int maxWindowWidth = 0;
         int horizontalTabsCount = 1;
         while (true) {
@@ -99,7 +98,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
         windowWidth = maxWindowWidth;
         windowHorizontalMargin = (screenWidth - windowWidth) / 2;
 
-        int availableScreenHeight = screenHeight - AdvancementsFullscreen.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
+        int availableScreenHeight = screenHeight - AdvancementsFullscreenMod.ADVANCEMENTS_SCREEN_MINIMUM_MARGIN * 2;
         int maxWindowHeight = 0;
         int verticalTabsCount = 1;
         while (true) {
@@ -292,9 +291,7 @@ public abstract class AdvancementsScreenMixin extends Screen implements Advancem
 
     @Inject(
         method = "init",
-        at = @At(
-            value = "RETURN"
-        )
+        at = @At(value = "RETURN")
     )
     private void calculateWindowSizeAndPositionOnInit(CallbackInfo ci) {
         calculateWindowSizeAndPosition(width, height);

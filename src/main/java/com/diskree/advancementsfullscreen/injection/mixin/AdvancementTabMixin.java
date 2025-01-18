@@ -1,6 +1,6 @@
-package com.diskree.advancementsfullscreen.mixin;
+package com.diskree.advancementsfullscreen.injection.mixin;
 
-import com.diskree.advancementsfullscreen.injection.AdvancementsScreenImpl;
+import com.diskree.advancementsfullscreen.injection.extension.AdvancementsScreenExtension;
 import net.minecraft.client.gui.screen.advancement.AdvancementTab;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import org.spongepowered.asm.mixin.Final;
@@ -27,8 +27,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateMoveLimitByX(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false);
         }
         return originalValue;
     }
@@ -41,8 +41,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateMoveLimitByY(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
@@ -55,8 +55,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateMoveMinimumX(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false);
         }
         return originalValue;
     }
@@ -69,8 +69,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateMoveMinimumY(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
@@ -83,8 +83,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateWidthForTooltipDim(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false);
         }
         return originalValue;
     }
@@ -97,8 +97,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateHeightForTooltipDim(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
@@ -111,8 +111,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateWidthForWidgetHoverCheck(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false);
         }
         return originalValue;
     }
@@ -125,8 +125,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateHeightForWidgetHoverCheck(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
@@ -139,8 +139,8 @@ public class AdvancementTabMixin {
         )
     )
     private int drawFullscreenBackgroundByWidth(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false);
         }
         return originalValue;
     }
@@ -153,8 +153,8 @@ public class AdvancementTabMixin {
         )
     )
     private int drawFullscreenBackgroundByHeight(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false);
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false);
         }
         return originalValue;
     }
@@ -167,8 +167,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateWidthForOriginX(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(false) / 2;
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(false) / 2;
         }
         return originalValue;
     }
@@ -181,8 +181,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateHeightForOriginY(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(false) / 2;
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(false) / 2;
         }
         return originalValue;
     }
@@ -195,8 +195,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateWidthForBackgroundGridColumnsCount(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowWidth(true) / 16 + 1;
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowWidth(true) / 16 + 1;
         }
         return originalValue;
     }
@@ -209,8 +209,8 @@ public class AdvancementTabMixin {
         )
     )
     private int calculateHeightForBackgroundGridRowsCount(int originalValue) {
-        if (screen instanceof AdvancementsScreenImpl screenImpl) {
-            return screenImpl.advancementsfullscreen$getWindowHeight(true) / 16 + 1;
+        if (screen instanceof AdvancementsScreenExtension advancementsScreenExtension) {
+            return advancementsScreenExtension.advancementsfullscreen$getWindowHeight(true) / 16 + 1;
         }
         return originalValue;
     }
