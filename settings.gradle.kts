@@ -1,16 +1,10 @@
 pluginManagement {
     repositories {
         mavenLocal()
+        mavenCentral()
+        maven("https://maven.fabricmc.net") { name = "Fabric" }
         gradlePluginPortal()
     }
 }
 
-plugins {
-    id("io.github.recrafter.recipe") version "1.2.7"
-}
-
-recipe {
-    crafter {
-        clientOnly()
-    }
-}
+rootProject.name = "advancements_fullscreen"

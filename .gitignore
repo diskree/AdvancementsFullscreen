@@ -1,11 +1,6 @@
 .idea/*
-!.idea/dictionaries
-
+!.idea/dictionaries/
 .gradle/
 .kotlin/
-
 build/
 run/
-
-crafter
-crafter.completion

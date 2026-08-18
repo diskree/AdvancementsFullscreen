@@ -1,17 +1,61 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("io.github.recrafter.crafter") version "1.2.6"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.fabric.loom)
+    alias(libs.plugins.lapis)
 }
 
-crafter {
-    mod {
-        name = "Advancements Fullscreen"
-        description = "A client-side mod that makes the advancements window bigger by expanding it to full screen. " +
-            "Continuation of the Advancements Enlarger mod."
-        version = "2.0.1"
+val namespace = "io.github.diskria"
+val modId = "advancements_fullscreen"
+val modPackage = "$namespace.$modId"
 
-        developer {
-            name = "diskria"
-            namespace = "io.github.diskria"
+group = namespace
+version = "2.0.1"
+
+loom {
+    accessWidenerPath = file("src/main/resources/$modId.classtweaker")
+}
+
+lapis {
+    uniqueModPrefix = modId
+    sourceSets {
+        register("main") {
+            mixinConfig = file("src/main/resources/$modId.mixins.json")
         }
+    }
+}
+
+dependencies {
+    minecraft(libs.minecraft)
+    implementation(libs.fabric.loader)
+    implementation(libs.fabric.kotlin)
+}
+
+tasks.withType<Jar> {
+    exclude("**/*.kotlin_module")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release = 25
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_25
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven("https://repo.spongepowered.org/repository/maven-public") {
+        name = "SpongePublic"
+        content { includeGroup("org.spongepowered") }
     }
 }

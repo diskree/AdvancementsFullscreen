@@ -1,0 +1,23 @@
+classTweaker v1 official
+
+# AdvancementsScreen
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementsScreen WINDOW_LOCATION Lnet/minecraft/resources/Identifier;
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementsScreen WINDOW_INSIDE_X I
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementsScreen WINDOW_INSIDE_Y I
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementsScreen BACKGROUND_TEXTURE_WIDTH I
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementsScreen BACKGROUND_TEXTURE_HEIGHT I
+
+# AdvancementTab
+accessible field net/minecraft/client/gui/screens/advancements/AdvancementTab centered Z
+
+# AdvancementTabType
+accessible class net/minecraft/client/gui/screens/advancements/AdvancementTabType
+
+# AdvancementTabType.Sprites
+accessible class net/minecraft/client/gui/screens/advancements/AdvancementTabType$Sprites
+
+# GuiGraphicsExtractor
+accessible method net/minecraft/client/gui/GuiGraphicsExtractor blitNineSlicedSprite (Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lnet/minecraft/client/resources/metadata/gui/GuiSpriteScaling$NineSlice;IIIII)V
+
+# TextureAtlasSprite
+accessible method net/minecraft/client/renderer/texture/TextureAtlasSprite <init> (Lnet/minecraft/resources/Identifier;Lnet/minecraft/client/renderer/texture/SpriteContents;IIIII)V
