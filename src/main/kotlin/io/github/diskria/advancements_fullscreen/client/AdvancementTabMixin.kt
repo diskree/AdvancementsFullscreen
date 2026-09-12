@@ -11,7 +11,7 @@ import javax.lang.model.element.Modifier.PRIVATE
 import javax.lang.model.element.Modifier.PUBLIC
 
 @KMixin(AdvancementTab::class, Env.Client)
-abstract class AdvancementTabPatch {
+abstract class AdvancementTabMixin {
 
     private val advancementsScreen: AdvancementsScreen get() = getScreen()
 

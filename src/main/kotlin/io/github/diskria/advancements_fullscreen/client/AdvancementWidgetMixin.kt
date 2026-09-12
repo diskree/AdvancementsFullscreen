@@ -14,7 +14,7 @@ import javax.lang.model.element.Modifier.FINAL
 import javax.lang.model.element.Modifier.PRIVATE
 
 @KMixin(AdvancementWidget::class, Env.Client)
-abstract class AdvancementWidgetPatch {
+abstract class AdvancementWidgetMixin {
 
     private val advancementsScreen: AdvancementsScreen get() = tab.screen
 

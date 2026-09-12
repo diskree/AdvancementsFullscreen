@@ -18,7 +18,7 @@ loom {
 }
 
 lapis {
-    uniqueModPrefix = modId
+    uniqueModPrefix = "$modId$"
     sourceSets {
         register("main") {
             mixinConfig = file("src/main/resources/$modId.mixins.json")

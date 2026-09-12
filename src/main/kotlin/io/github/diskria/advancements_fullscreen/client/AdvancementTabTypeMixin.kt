@@ -17,7 +17,7 @@ import net.minecraft.resources.Identifier
 import org.spongepowered.asm.mixin.injection.At
 
 @KMixin(AdvancementTabType::class, Env.Client)
-abstract class AdvancementTabTypePatch(@Origin val type: AdvancementTabType) {
+abstract class AdvancementTabTypeMixin(@Origin val type: AdvancementTabType) {
 
     private val advancementsScreen: AdvancementsScreen?
         get() = Minecraft.getInstance().gui.screen() as? AdvancementsScreen
